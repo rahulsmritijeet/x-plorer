@@ -23,7 +23,6 @@
                 <li><a href="#" data-page="launchpad">LAUNCHPAD</a></li>
                 <li><a href="#" data-page="spacecrafts">SPACECRAFTS</a></li>
                 <li><a href="#" data-page="destinations">DESTINATIONS</a></li>
-                <li><a href="#" data-page="experiences">EXPERIENCES</a></li>
             </ul>
 
             <a href="#" class="contact-btn main-nav-contact-btn" data-page="contact">CONTACT</a>
@@ -39,7 +38,6 @@
                     <li><a href="#" data-page="launchpad" onclick="closeMenu()">LAUNCHPAD</a></li>
                     <li><a href="#" data-page="spacecrafts" onclick="closeMenu()">SPACECRAFTS</a></li>
                     <li><a href="#" data-page="destinations" onclick="closeMenu()">DESTINATIONS</a></li>
-                    <li><a href="#" data-page="experiences" onclick="closeMenu()">EXPERIENCES</a></li>
                 </ul>
                 <a href="#" class="contact-btn mobile-menu-contact-btn" data-page="contact" onclick="closeMenu()">CONTACT</a>
             </div>
@@ -98,6 +96,24 @@
 
                 currentActiveNavElement = newActiveElements.length > 0 ? newActiveElements[0] : null;
 
+                const bodyElement = document.body;
+                const contentWrapper = document.getElementById('content-wrapper');
+
+                const isFullscreenPage = (page === 'destinations');
+
+                if (isFullscreenPage) {
+                    bodyElement.classList.add('fullscreen-mode');
+                    const headerHeight = header.offsetHeight;
+                    contentWrapper.style.top = `${headerHeight}px`;
+                    contentWrapper.style.height = `calc(100vh - ${headerHeight}px)`;
+                    contentWrapper.style.padding = '0';
+                } else {
+                    bodyElement.classList.remove('fullscreen-mode');
+                    contentWrapper.style.padding = '2rem';
+                    contentWrapper.style.top = 'auto';
+                    contentWrapper.style.height = 'auto';
+                }
+
                 let pageUrl;
                 switch (page) {
                     case 'spacecrafts':
@@ -108,9 +124,6 @@
                         break;
                     case 'destinations':
                         pageUrl = 'destinations/destinations.html';
-                        break;
-                    case 'experiences':
-                        pageUrl = 'experiences/experiences.html';
                         break;
                     case 'contact':
                         pageUrl = 'stellaris/stellaris.html';
@@ -144,6 +157,23 @@
                 currentActiveNavElement = initialActiveLink;
             }
 
+            const bodyElement = document.body;
+            const contentWrapper = document.getElementById('content-wrapper');
+            const isFullscreenPageInitial = (initialPage === 'destinations');
+
+            if (isFullscreenPageInitial) {
+                bodyElement.classList.add('fullscreen-mode');
+                const headerHeight = header.offsetHeight;
+                contentWrapper.style.top = `${headerHeight}px`;
+                contentWrapper.style.height = `calc(100vh - ${headerHeight}px)`;
+                contentWrapper.style.padding = '0';
+            } else {
+                bodyElement.classList.remove('fullscreen-mode');
+                contentWrapper.style.padding = '2rem';
+                contentWrapper.style.top = 'auto';
+                contentWrapper.style.height = 'auto';
+            }
+
             let initialPageUrl;
             switch (initialPage) {
                 case 'spacecrafts':
@@ -154,9 +184,6 @@
                     break;
                 case 'destinations':
                     initialPageUrl = 'destinations/destinations.html';
-                    break;
-                case 'experiences':
-                    initialPageUrl = 'experiences/experiences.html';
                     break;
                 case 'contact':
                     initialPageUrl = 'stellaris/stellaris.html';
