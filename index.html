@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Michroma:wght@400&family=Exo+2:wght@300;400;500;600;700&family=Aldrich&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -84,19 +84,16 @@
             if (page !== 'contact') {
                 document.querySelectorAll(`[data-page="${page}"]`).forEach(link => link.classList.add('active'));
             } else {
-            
                 document.querySelector('.main-nav-contact-btn')?.classList.add('active');
                 document.querySelector('.mobile-menu .contact-btn')?.classList.add('active');
             }
-
-
 
             contentWrapper.innerHTML = '<div style="text-align: center; padding: 2rem; flex-grow: 1;">Loading content...</div>';
 
             setTimeout(async () => {
                 try {
                     let filename;
-   
+
                     switch (page) {
                         case 'spacecrafts':
                             filename = 'spacecrafts/spacecrafts.html';
@@ -108,7 +105,7 @@
                             filename = 'destinations/destinations.html';
                             break;
                         case 'contact':
-                            filename = 'stellaris/stellaris.html'; 
+                            filename = 'stellaris/stellaris.html';
                             break;
                     }
 
@@ -116,7 +113,7 @@
                     if (!res.ok) throw new Error(`Could not load ${filename}`);
                     const htmlContent = await res.text();
 
-                    const isFullscreenPage = (page === 'destinations'); 
+                    const isFullscreenPage = (page === 'destinations');
 
                     if (isFullscreenPage) {
                         bodyElement.classList.add('fullscreen-mode');
@@ -124,7 +121,7 @@
 
                         contentWrapper.style.top = `${headerHeight}px`;
                         contentWrapper.style.height = `calc(100vh - ${headerHeight}px)`;
-                        contentWrapper.style.padding = '0'; 
+                        contentWrapper.style.padding = '0';
                     } else {
                         bodyElement.classList.remove('fullscreen-mode');
                         contentWrapper.style.padding = '2rem';
@@ -135,8 +132,18 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(htmlContent, 'text/html');
 
-                    contentWrapper.innerHTML = '';
+                    const links = doc.querySelectorAll('link[rel="stylesheet"]');
+                    links.forEach(oldLink => {
+                        const newLink = document.createElement('link');
+                        Array.from(oldLink.attributes).forEach(attr => {
+                            newLink.setAttribute(attr.name, attr.value);
+                        });
+                        if (!document.querySelector(`link[href="${newLink.href}"]`)) {
+                            document.head.appendChild(newLink);
+                        }
+                    });
 
+                    contentWrapper.innerHTML = '';
 
                     const mainContent = doc.querySelector('main');
                     if (mainContent) {
@@ -149,17 +156,15 @@
                         });
                     }
 
-
                     const scripts = doc.querySelectorAll('script');
                     scripts.forEach(oldScript => {
                         const newScript = document.createElement('script');
-                
                         Array.from(oldScript.attributes).forEach(attr => {
                             newScript.setAttribute(attr.name, attr.value);
                         });
                         if (oldScript.src) {
                             newScript.src = oldScript.src;
-                            newScript.async = false; 
+                            newScript.async = false;
                             newScript.defer = false;
                         } else {
                             newScript.textContent = oldScript.textContent;
@@ -168,49 +173,44 @@
                         contentWrapper.appendChild(newScript);
                     });
 
-    
                     contentWrapper.classList.remove('loading-transition');
                     contentWrapper.classList.add('active-content');
 
                 } catch (err) {
-      
-                    bodyElement.classList.remove('fullscreen-mode'); 
+                    bodyElement.classList.remove('fullscreen-mode');
                     contentWrapper.classList.remove('loading-transition');
                     contentWrapper.classList.add('active-content');
                     contentWrapper.innerHTML = `
-                        <div class="default-content">
-                            <div class="content-header">
-                                <h1 class="hero-text">DEEP SPACE EXPLORATION</h1>
-                                <p class="hero-subtitle">Navigate through our advanced spacecraft fleet and interstellar missions.
-                                    Select a section from the navigation to explore different aspects of space exploration.</p>
-                            </div>
-                            <h2>CONTENT UNAVAILABLE</h2>
-                            <p>The ${page} section is currently under development. Please check back later or try another section.</p>
-                            <p style="margin-top: 1rem; font-size: 0.9em; color: #888;">Error: ${err.message}</p>
+                    <div class="default-content">
+                        <div class="content-header">
+                            <h1 class="hero-text">DEEP SPACE EXPLORATION</h1>
+                            <p class="hero-subtitle">Navigate through our advanced spacecraft fleet and interstellar missions.
+                                Select a section from the navigation to explore different aspects of space exploration.</p>
                         </div>
-                    `;
+                        <h2>CONTENT UNAVAILABLE</h2>
+                        <p>The ${page} section is currently under development. Please check back later or try another section.</p>
+                        <p style="margin-top: 1rem; font-size: 0.9em; color: #888;">Error: ${err.message}</p>
+                    </div>
+                `;
                     contentWrapper.style.padding = '2rem';
                     contentWrapper.style.top = 'auto';
                     contentWrapper.style.height = 'auto';
                 }
-            }, 600); 
+            }, 600);
         }
-
 
         navLinks.forEach(link => {
             link.addEventListener('click', e => {
-                e.preventDefault(); 
-                const page = e.target.dataset.page; 
+                e.preventDefault();
+                const page = e.target.dataset.page;
 
-   
                 if (e.target.classList.contains('active') && !contentWrapper.classList.contains('loading-transition')) {
-
                 }
-                loadContent(page); 
+
+                loadContent(page);
                 closeMenu();
             });
         });
-
 
         document.addEventListener('click', function (event) {
             const hamburger = document.querySelector('.hamburger');
@@ -226,6 +226,7 @@
             loadContent('spacecrafts');
         });
     </script>
+
 </body>
 
 </html>
