@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-PLORER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Michroma:wght@400&family=Exo+2:wght@300;400;500;600;700&family=Aldrich&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="rahulsmritijeet.github.io/x-plorer/style.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">X-PLORER</div>
+
+            <ul class="nav-center">
+                <li><a href="#" data-page="launchpad">LAUNCHPAD</a></li>
+                <li><a href="#" data-page="spacecrafts" class="active">SPACECRAFTS</a></li>
+                <li><a href="#" data-page="destinations">DESTINATIONS</a></li>
+                <li><a href="#" data-page="experiences">EXPERIENCES</a></li>
+            </ul>
+
+            <a href="#" class="contact-btn main-nav-contact-btn" data-page="contact">CONTACT</a>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#" data-page="launchpad" onclick="closeMenu()">LAUNCHPAD</a></li>
+                    <li><a href="#" data-page="spacecrafts" onclick="closeMenu()">SPACECRAFTS</a></li>
+                    <li><a href="#" data-page="destinations" onclick="closeMenu()">DESTINATIONS</a></li>
+                    <li><a href="#" data-page="experiences" onclick="closeMenu()">EXPERIENCES</a></li>
+                </ul>
+                <a href="#" class="contact-btn" data-page="contact" onclick="closeMenu()">CONTACT</a>
+            </div>
+        </nav>
+    </header>
+
+    <div id="content-wrapper">
+        <div class="default-content">
+            <div class="content-header">
+                <h1 class="hero-text">DEEP SPACE EXPLORATION</h1>
+                <p class="hero-subtitle">Navigate through our advanced spacecraft fleet and interstellar missions.
+                    Select a section from the navigation to explore different aspects of space exploration.</p>
+            </div>
+            <h2>LOADING CONTENT...</h2>
+            <p>Please select a navigation option or wait for the default content to load.</p>
+        </div>
+    </div>
+
+    <script>
+        const contentWrapper = document.getElementById('content-wrapper');
+
+        const navLinks = document.querySelectorAll('.nav-center a, .mobile-menu a, .main-nav-contact-btn');
+        const bodyElement = document.body;
+        const headerElement = document.querySelector('header');
+
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+
+        async function loadContent(page) {
+            contentWrapper.classList.add('loading-transition');
+
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            if (page !== 'contact') {
+                document.querySelectorAll(`[data-page="${page}"]`).forEach(link => link.classList.add('active'));
+            } else {
+            
+                document.querySelector('.main-nav-contact-btn')?.classList.add('active');
+                document.querySelector('.mobile-menu .contact-btn')?.classList.add('active');
+            }
+
+
+
+            contentWrapper.innerHTML = '<div style="text-align: center; padding: 2rem; flex-grow: 1;">Loading content...</div>';
+
+            setTimeout(async () => {
+                try {
+                    let filename;
+   
+                    switch (page) {
+                        case 'spacecrafts':
+                            filename = 'ships.html';
+                            break;
+                        case 'launchpad':
+                            filename = 'launchpad.html';
+                            break;
+                        case 'destinations':
+                            filename = 'new.html';
+                            break;
+                        case 'experiences':
+                            filename = 'experiences.html';
+                            break;
+                        case 'contact':
+                            filename = 'contact.html'; 
+                            break;
+                        default:
+                            filename = `${page}.html`; 
+                    }
+
+                    const res = await fetch(filename);
+                    if (!res.ok) throw new Error(`Could not load ${filename}`);
+                    const htmlContent = await res.text();
+
+                    const isFullscreenPage = (page === 'destinations'); 
+
+                    if (isFullscreenPage) {
+                        bodyElement.classList.add('fullscreen-mode');
+                        const headerHeight = headerElement.offsetHeight;
+
+                        contentWrapper.style.top = `${headerHeight}px`;
+                        contentWrapper.style.height = `calc(100vh - ${headerHeight}px)`;
+                        contentWrapper.style.padding = '0'; 
+                    } else {
+                        bodyElement.classList.remove('fullscreen-mode');
+                        contentWrapper.style.padding = '2rem';
+                        contentWrapper.style.top = 'auto';
+                        contentWrapper.style.height = 'auto';
+                    }
+
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlContent, 'text/html');
+
+                    contentWrapper.innerHTML = '';
+
+
+                    const mainContent = doc.querySelector('main');
+                    if (mainContent) {
+                        Array.from(mainContent.children).forEach(child => {
+                            contentWrapper.appendChild(child.cloneNode(true));
+                        });
+                    } else {
+                        Array.from(doc.body.children).forEach(child => {
+                            contentWrapper.appendChild(child.cloneNode(true));
+                        });
+                    }
+
+
+                    const scripts = doc.querySelectorAll('script');
+                    scripts.forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                
+                        Array.from(oldScript.attributes).forEach(attr => {
+                            newScript.setAttribute(attr.name, attr.value);
+                        });
+                        if (oldScript.src) {
+                            newScript.src = oldScript.src;
+                            newScript.async = false; 
+                            newScript.defer = false;
+                        } else {
+                            newScript.textContent = oldScript.textContent;
+                        }
+
+                        contentWrapper.appendChild(newScript);
+                    });
+
+    
+                    contentWrapper.classList.remove('loading-transition');
+                    contentWrapper.classList.add('active-content');
+
+                } catch (err) {
+      
+                    bodyElement.classList.remove('fullscreen-mode'); 
+                    contentWrapper.classList.remove('loading-transition');
+                    contentWrapper.classList.add('active-content');
+                    contentWrapper.innerHTML = `
+                        <div class="default-content">
+                            <div class="content-header">
+                                <h1 class="hero-text">DEEP SPACE EXPLORATION</h1>
+                                <p class="hero-subtitle">Navigate through our advanced spacecraft fleet and interstellar missions.
+                                    Select a section from the navigation to explore different aspects of space exploration.</p>
+                            </div>
+                            <h2>CONTENT UNAVAILABLE</h2>
+                            <p>The ${page} section is currently under development. Please check back later or try another section.</p>
+                            <p style="margin-top: 1rem; font-size: 0.9em; color: #888;">Error: ${err.message}</p>
+                        </div>
+                    `;
+                    contentWrapper.style.padding = '2rem';
+                    contentWrapper.style.top = 'auto';
+                    contentWrapper.style.height = 'auto';
+                }
+            }, 600); 
+        }
+
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault(); 
+                const page = e.target.dataset.page; 
+
+   
+                if (e.target.classList.contains('active') && !contentWrapper.classList.contains('loading-transition')) {
+
+                }
+                loadContent(page); 
+                closeMenu();
+            });
+        });
+
+
+        document.addEventListener('click', function (event) {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (hamburger && mobileMenu && !hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        window.addEventListener('load', () => {
+            loadContent('spacecrafts');
+        });
+    </script>
+</body>
+
+</html>
