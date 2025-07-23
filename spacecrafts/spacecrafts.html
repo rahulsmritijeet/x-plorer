@@ -217,17 +217,16 @@
             const endX = e.changedTouches[0].clientX;
             const diff = startX - endX;
 
-            if (Math.abs(diff) > 50) { // Threshold for a swipe
+            if (Math.abs(diff) > 50) { 
                 if (diff > 0) {
                     nextSector();
                 } else {
                     prevSector();
                 }
             }
-            startX = null; // Reset startX
+            startX = null;
         }, { passive: true });
 
-        // Initialize position on load
         updateSectorPosition();
     </script>
 </body>
