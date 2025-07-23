@@ -112,7 +112,7 @@ body {
     width: 100%;
 }
 
-.sector-ship-image {
+.sector-ship-image .sector-ship-image-medium .sector-ship-image-big {
     z-index: 100;
     margin-bottom: 50px;
     transform: rotateY(15deg) scale(1.0);
@@ -126,16 +126,15 @@ body {
 }
 
 .sector-ship-image-big img {
-    max-width: 200px;
+    max-width: 180px;
     height: auto;
     filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.8));
 }
 
-.sector-ship-image-big {
-    z-index: 100;
-    margin-bottom: 70px;
-    transform: rotateY(15deg) scale(1.0);
-    transition: transform 0.5s ease;
+.sector-ship-image-medium img {
+    max-width: 250px;
+    height: auto;
+    filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.8));
 }
 
 .sector-1 .sector-title {
