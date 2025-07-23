@@ -125,6 +125,19 @@ body {
     filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.8));
 }
 
+.sector-ship-image-big {
+    z-index: 100;
+    margin-bottom: 50px;
+    transform: rotateY(15deg) scale(1.0);
+    transition: transform 0.5s ease;
+}
+
+.sector-ship-image img {
+    max-width: 250px;
+    height: auto;
+    filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.8));
+}
+
 .sector-1 .sector-title {
     background: linear-gradient(45deg, #00d4ff, #7c4dff, #ff4081);
     -webkit-background-clip: text;
