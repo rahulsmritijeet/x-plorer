@@ -1,0 +1,397 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lora', serif;
+    background: #000000;
+    color: #ffffff;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+
+.nebula-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: -2;
+}
+
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.1); }
+}
+
+@keyframes drift {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(8px) translateY(-8px); }
+    50% { transform: translateX(-4px) translateY(-15px); }
+    75% { transform: translateX(-10px) translateY(-4px); }
+}
+
+@keyframes energyPulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2),
+                    0 0 25px rgba(255, 255, 255, 0.1),
+                    0 0 35px rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4),
+                    0 0 40px rgba(255, 255, 255, 0.2),
+                    0 0 55px rgba(255, 255, 255, 0.1);
+    }
+}
+
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero-content {
+    z-index: 2;
+    max-width: 900px;
+    padding: 0 20px;
+    animation: drift 25s ease-in-out infinite;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    background: linear-gradient(45deg, #ffffff 0%, #cccccc 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 30px;
+    text-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+.logo::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+    z-index: -1;
+    border-radius: 10px;
+}
+
+.tagline {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    opacity: 0.8;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 18px 50px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 0;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Lora', serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    transition: left 0.6s;
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
+
+.cta-button:hover {
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+
+.section {
+    padding: 120px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 80px;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 50px;
+    margin-top: 80px;
+}
+
+.about-card {
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 50px 40px;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.015), transparent);
+    transition: left 0.8s;
+}
+
+.about-card:hover::before {
+    left: 100%;
+}
+
+.about-card:hover {
+    transform: translateY(-12px) scale(1.01);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: #000;
+    animation: energyPulse 4s infinite;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.card-description {
+    text-align: center;
+    font-weight: 300;
+    line-height: 1.8;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+
+.mission {
+    background: rgba(3, 3, 3, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 80px 60px;
+    margin: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.mission::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.005) 50%, transparent 60%);
+    animation: drift 35s linear infinite;
+}
+
+.mission-text {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.85);
+    z-index: 2;
+    position: relative;
+}
+
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin: 100px 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(8, 8, 8, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.4s ease;
+}
+
+.stat-item:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.05);
+}
+
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.stat-label {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+
+.geometric-element {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+}
+
+.geo-1 {
+    width: 180px;
+    height: 180px;
+    top: 20%;
+    right: 8%;
+    animation: drift 30s ease-in-out infinite;
+}
+
+.geo-2 {
+    width: 100px;
+    height: 100px;
+    top: 65%;
+    left: 6%;
+    animation: drift 25s ease-in-out infinite reverse;
+}
+
+.geo-3 {
+    width: 60px;
+    height: 60px;
+    bottom: 25%;
+    right: 15%;
+    border-radius: 50%;
+    animation: pulse 8s ease-in-out infinite;
+}
+
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 3rem;
+        letter-spacing: 4px;
+    }
+    .tagline {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    .section-title {
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+    }
+    .section {
+        padding: 80px 15px;
+    }
+    .mission {
+        padding: 50px 30px;
+    }
+    .about-card {
+        padding: 40px 30px;
+    }
+    .geometric-element {
+        display: none;
+    }
+}
