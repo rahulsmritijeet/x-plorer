@@ -1,105 +1,104 @@
-< !DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>X-PLORER</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Michroma:wght@400&family=Exo+2:wght@300;400;500;600;700&family=Aldrich&display=swap"
-            rel="stylesheet">
-        <link rel="stylesheet" href="style.css" />
-        <link rel="icon" href="assets/interstellar.png" type="image/png">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-PLORER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Michroma:wght@400&family=Exo+2:wght@300;400;500;600;700&family=Aldrich&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="assets/interstellar.png" type="image/png">
+</head>
 
-    <body>
-        <header>
-            <nav>
-                <div class="logo">X-PLORER</div>
+<body>
+    <header>
+        <nav>
+            <div class="logo">X-PLORER</div>
 
-                <ul class="nav-center">
-                    <li><a href="#" data-page="launchpad">LAUNCHPAD</a></li>
-                    <li><a href="#" data-page="spacecrafts" class="active">SPACECRAFTS</a></li>
-                    <li><a href="#" data-page="destinations">DESTINATIONS</a></li>
+            <ul class="nav-center">
+                <li><a href="#" data-page="launchpad">LAUNCHPAD</a></li>
+                <li><a href="#" data-page="spacecrafts" class="active">SPACECRAFTS</a></li>
+                <li><a href="#" data-page="destinations">DESTINATIONS</a></li>
+            </ul>
+
+            <a href="#" class="contact-btn main-nav-contact-btn" data-page="contact">CONTACT</a>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#" data-page="launchpad" onclick="closeMenu()">LAUNCHPAD</a></li>
+                    <li><a href="#" data-page="spacecrafts" onclick="closeMenu()">SPACECRAFTS</a></li>
+                    <li><a href="#" data-page="destinations" onclick="closeMenu()">DESTINATIONS</a></li>
                 </ul>
+                <a href="#" class="contact-btn" data-page="contact" onclick="closeMenu()">CONTACT</a>
+            </div>
+        </nav>
+    </header>
 
-                <a href="#" class="contact-btn main-nav-contact-btn" data-page="contact">CONTACT</a>
+    <div id="content-wrapper" style="flex-grow: 1;">
+        <iframe id="pageFrame" src="launchpad/launchpad.html"
+            style="width: 100%; height: calc(100vh - var(--nav-height)); border: none;"></iframe>
+    </div>
 
-                <div class="hamburger" onclick="toggleMenu()">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+    <script>
+        const iframe = document.getElementById('pageFrame');
+        const navLinks = document.querySelectorAll('.nav-center a, .mobile-menu a, .main-nav-contact-btn');
 
-                <div class="mobile-menu" id="mobileMenu">
-                    <ul>
-                        <li><a href="#" data-page="launchpad" onclick="closeMenu()">LAUNCHPAD</a></li>
-                        <li><a href="#" data-page="spacecrafts" onclick="closeMenu()">SPACECRAFTS</a></li>
-                        <li><a href="#" data-page="destinations" onclick="closeMenu()">DESTINATIONS</a></li>
-                    </ul>
-                    <a href="#" class="contact-btn" data-page="contact" onclick="closeMenu()">CONTACT</a>
-                </div>
-            </nav>
-        </header>
+        const header = document.querySelector('header');
+        const updateIframeHeight = () => {
+            const headerHeight = header.offsetHeight;
+            iframe.style.height = `calc(100vh - ${headerHeight}px)`;
+        };
 
-        <div id="content-wrapper" style="flex-grow: 1;">
-            <iframe id="pageFrame" src="launchpad/launchpad.html"
-                style="width: 100%; height: calc(100vh - var(--nav-height)); border: none;"></iframe>
-        </div>
+        window.addEventListener('resize', updateIframeHeight);
+        window.addEventListener('load', updateIframeHeight);
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const page = e.target.dataset.page;
 
-        <script>
-            const iframe = document.getElementById('pageFrame');
-            const navLinks = document.querySelectorAll('.nav-center a, .mobile-menu a, .main-nav-contact-btn');
+                let pageUrl;
+                switch (page) {
+                    case 'spacecrafts':
+                        pageUrl = 'spacecrafts/spacecrafts.html';
+                        break;
+                    case 'launchpad':
+                        pageUrl = 'launchpad/launchpad.html';
+                        break;
+                    case 'destinations':
+                        pageUrl = 'destinations/destinations.html';
+                        break;
+                    case 'contact':
+                        pageUrl = 'stellaris/stellaris.html';
+                        break;
+                }
 
-            const header = document.querySelector('header');
-            const updateIframeHeight = () => {
-                const headerHeight = header.offsetHeight;
-                iframe.style.height = `calc(100vh - ${headerHeight}px)`;
-            };
+                iframe.src = pageUrl;
 
-            window.addEventListener('resize', updateIframeHeight);
-            window.addEventListener('load', updateIframeHeight);
+                navLinks.forEach(link => link.classList.remove('active'));
+                document.querySelectorAll(`[data-page="${page}"]`).forEach(link => link.classList.add('active'));
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', e => {
-                    e.preventDefault();
-                    const page = e.target.dataset.page;
-
-                    let pageUrl;
-                    switch (page) {
-                        case 'spacecrafts':
-                            pageUrl = 'spacecrafts/spacecrafts.html';
-                            break;
-                        case 'launchpad':
-                            pageUrl = 'launchpad/launchpad.html';
-                            break;
-                        case 'destinations':
-                            pageUrl = 'destinations/destinations.html';
-                            break;
-                        case 'contact':
-                            pageUrl = 'stellaris/stellaris.html';
-                            break;
-                    }
-
-                    iframe.src = pageUrl;
-
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    document.querySelectorAll(`[data-page="${page}"]`).forEach(link => link.classList.add('active'));
-
-                    const mobileMenu = document.getElementById('mobileMenu');
-                    const hamburger = document.querySelector('.hamburger');
-                    mobileMenu.classList.remove('active');
-                    hamburger.classList.remove('active');
-                });
+                const mobileMenu = document.getElementById('mobileMenu');
+                const hamburger = document.querySelector('.hamburger');
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
             });
+        });
 
-            function toggleMenu() {
-                document.getElementById('mobileMenu').classList.toggle('active');
-                document.querySelector('.hamburger').classList.toggle('active');
-            }
-        </script>
-    </body>
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+    </script>
+</body>
 
-    </html>
+</html>
