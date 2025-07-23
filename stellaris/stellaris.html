@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Mission Control - Stellaris</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Space+Mono:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tomato.css">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="orbital-ring"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">STELLARIS Communication Module</div>
+            <div class="tagline">Beyond the Final Frontier</div>
+        </header>
+
+        <div class="main-content">
+            <div class="contact-info fade-in">
+                <h2 class="section-title">Mission Control</h2>
+                
+                <div class="contact-item">
+                    <div class="contact-label">Communications</div>
+                    <div class="contact-value">
+                        Deep Space Frequency: 2847.5 MHz<br>
+                        Emergency Channel: Alpha-7-Zulu<br>
+                        Quantum Relay: ACTIVE
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">Direct Line</div>
+                    <div class="contact-value">+911 (2611) STELLARIS</div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">Digital Transmission</div>
+                    <div class="contact-value">command@stellaris.space</div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">Operational Hours</div>
+                    <div class="contact-value">
+                        24/7 Deep Space Operations<br>
+                        Earth Standard Time Coverage<br>
+                        Multi-Planet Support Available
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-label">Launch Coordination</div>
+                    <div class="contact-value">
+                        Pre-flight: 72 hours notice<br>
+                        Emergency Evac: Immediate<br>
+                        Cargo Missions: Weekly schedule
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form fade-in-delay">
+                <h2 class="section-title">Transmission</h2>
+                
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Sender's Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder="Secure Channel (Email)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea class="form-textarea" placeholder=" Message Details" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Transmit Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = this.querySelector('.submit-btn');
+            const originalText = btn.textContent;
+            
+            btn.textContent = 'Transmitting...';
+            btn.style.background = 'linear-gradient(45deg, #64ffda, #00d4ff)';
+            
+            setTimeout(() => {
+                btn.textContent = 'Signal Received!';
+                btn.style.background = 'linear-gradient(45deg, #00ff88, #00cc66)';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(45deg, #00d4ff, #0099cc)';
+                    this.reset();
+                }, 2500);
+            }, 2000);
+        });
+
+        document.querySelectorAll('.form-input, .form-textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateX(8px)';
+                this.parentElement.style.transition = 'transform 0.3s ease';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateX(0)';
+            });
+        });
+
+        createStars();
+
+        window.addEventListener('mousemove', (e) => {
+            const ring = document.querySelector('.orbital-ring');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            ring.style.transform = `translate(${x * 20}px, ${y * 20}px) rotate(${x * 360}deg)`;
+        });
+    </script>
+</body>
+</html>
