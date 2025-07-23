@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xplorer - Journey Beyond the Stars</title>
+    <link rel="stylesheet" href="launchpad.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:wght@400;600&family=Lora:400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="nebula-bg"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="geometric-element geo-1"></div>
+    <div class="geometric-element geo-2"></div>
+    <div class="geometric-element geo-3"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="logo">XPLORER</h1>
+            <p class="tagline">Beyond Boundaries, Beyond Imagination</p>
+            <button class="cta-button" onclick="scrollToSection('about')">Initialize Journey</button>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <h2 class="section-title">Entity Profile</h2>
+
+        <div class="mission">
+            <p class="mission-text">
+                Xplorer represents the convergence of advanced propulsion technologies, quantum navigation systems, and deep space exploration capabilities. We engineer the impossible, transforming theoretical physics into operational reality. Our vessels traverse the void between worlds, carrying humanity's curiosity into the infinite darkness where stars are born and universes collide.
+            </p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="card-icon">X1</div>
+                <h3 class="card-title">Quantum Exploration</h3>
+                <p class="card-description">
+                    Advanced quantum propulsion systems enable instantaneous navigation through folded spacetime, reaching distant star systems and parallel dimensions previously beyond human comprehension.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <div class="card-icon">X2</div>
+                <h3 class="card-title">Void Transit</h3>
+                <p class="card-description">
+                    Experience zero-gravity luxury aboard our obsidian-class vessels, equipped with neural interface technology and atmospheric synthesis systems for extended deep space voyages.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <div class="card-icon">X3</div>
+                <h3 class="card-title">Cosmic Research</h3>
+                <p class="card-description">
+                    Pioneering research into dark matter manipulation, wormhole stabilization, and extraterrestrial intelligence detection through our network of deep space observation platforms.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Prime Directive</h2>
+
+        <div class="mission">
+            <p class="mission-text">
+                To transcend the limitations of terrestrial existence and establish humanity as a multi-dimensional species. We forge pathways through the cosmic void, decode the mysteries of dark energy, and construct bridges between worlds separated by impossible distances. Through precision engineering and quantum mechanics, we transform science fiction into operational reality, making the infinite accessible to those bold enough to venture into the unknown.
+            </p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Dimensional Breaches</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number">47.3</div>
+                <div class="stat-label">Light Years Traversed</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number">2847</div>
+                <div class="stat-label">Void Travelers</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Quantum Stability</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 120;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 2.5 + 0.5 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 4 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            const geoElements = document.querySelectorAll('.geometric-element');
+
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.2}px) scale(${1 - scrolled * 0.0001})`;
+            }
+
+            geoElements.forEach((element, index) => {
+                const speed = 0.05 + (index * 0.03);
+                element.style.transform += ` translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+        });
+    </script>
+</body>
+</html>
