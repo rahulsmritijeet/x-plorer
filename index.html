@@ -93,6 +93,16 @@
                 hamburger.classList.remove('active');
             });
         });
+
+                function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.querySelector('.hamburger').classList.remove('active');
+        }
     </script>
 
 
